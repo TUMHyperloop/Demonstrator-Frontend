@@ -4,15 +4,28 @@
     import { appName } from '../lib/constants'
 </script>
 
-<Layout>
-    <div class="flex flex-col items-center justify-center flex-1 text-center">
-        <p class="text-xl font-thin uppercase">Welcome to</p>
-        <h1
-            class="text-green-500 text-5xl sm:text-6xl font-normal normal-case mt-1 mb-32"
-        >
-            {appName}
-        </h1>
+<div class="fullscreen">
+    <div class="top-menu">v</div>
 
-        <LinkButton href="/questions">Let's start!</LinkButton>
-    </div>
-</Layout>
+    <div class="side-menu">v</div>
+</div>
+
+<style>
+    .fullscreen {
+        background-color: #212121;
+        width: 1920px;
+        height: 1080px;
+        overflow-x: auto;
+        box-sizing: border-box;
+    }
+    .top-menu {
+        height: 40px;
+        width: 1920px;
+        background-color: #424242;
+    }
+    .side-menu {
+        background-color: #303030;
+        height: 1041px;
+        width: 246px;
+    }
+</style>
