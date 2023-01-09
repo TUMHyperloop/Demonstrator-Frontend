@@ -1,6 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+/* @font-face {
+    font-family: "Poppins-SemiBold";
+    src: url("/static/Poppins-SemiBold.ttf");
+} */
+
 
 html, body {
     height: 100%;
@@ -48,14 +52,7 @@ time, mark, audio, video, button, input,  hr, a {
     color: inherit; 
 	vertical-align: baseline;
     text-decoration: none;
-}
-
-body {
-    color: white;
-    font-family: 'Outfit', sans-serif;
-    overflow-y: hidden; 
-    overflow-x: hidden;
-}   
+}  
 
 /* Dont display plotly logo & take screenshot */
 a[href='https://plotly.com/']{
@@ -72,8 +69,16 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-@media screen and (max-width: 1800px) {
-    body {
-        overflow-x: scroll;
-    }
-}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) { }
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {  }
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {  }
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { }
+

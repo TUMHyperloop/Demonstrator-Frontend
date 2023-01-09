@@ -1,31 +1,51 @@
 <script context="module" lang="ts">
-    import Layout from '../components/Layout.svelte'
-    import LinkButton from '../components/LinkButton.svelte'
-    import { appName } from '../lib/constants'
+    import logo from '../assets/logo.svg'
+    import notification from '../assets/notification.svg'
 </script>
 
 <div class="fullscreen">
-    <div class="top-menu">v</div>
-
-    <div class="side-menu">v</div>
+    <div class="side-menu">
+        <div class="upper">
+            <h1>SENSORS</h1>
+        </div>
+        <div class="lower">
+            <h1>ACTORS</h1>
+        </div>
+    </div>
 </div>
 
 <style>
     .fullscreen {
         background-color: #212121;
-        width: 1920px;
-        height: 1080px;
-        overflow-x: auto;
-        box-sizing: border-box;
+        width: 100vw;
+        height: 100vh;
+        overflow-x: scroll;
+        overflow-y: scroll;
     }
-    .top-menu {
-        height: 40px;
-        width: 1920px;
-        background-color: #424242;
-    }
+
     .side-menu {
-        background-color: #303030;
-        height: 1041px;
+        background-color: #212121;
+        height: 100%;
         width: 246px;
+        display: flex;
+        flex-flow: column;
+        position: relative;
+
+        justify-content: space-between;
+    }
+    .upper {
+        height: 49%;
+        width: 100%;
+        background-color: #303030;
+    }
+    .lower {
+        height: 49%;
+        width: 100%;
+        background-color: #303030;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+    h1 {
     }
 </style>
