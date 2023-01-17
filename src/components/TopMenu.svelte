@@ -1,6 +1,21 @@
 <script>
     import logo from '../assets/logo.svg'
     import notification from '../assets/notification.svg'
+
+    import { subsystemList, subsystemNotification } from '../stores/test.config'
+    import { createEventDispatcher } from 'svelte'
+
+    // Get the selected tab to highlight
+    export let selectedSubsystem
+
+    // Create event dispatcher
+    const dispatch = createEventDispatcher()
+
+    // Trigger when user clicks on a subsystem tab
+    function clickSubsystemTab(subsystemName) {
+        // Dispatch event to parent, new selected subsystem
+        dispatch('subsystemSelected', subsystemName)
+    }
 </script>
 
 <div class="top-menu">
@@ -9,22 +24,21 @@
         <p>Demonstrator</p>
     </div>
     <div class="main">
-        <div class="tab selected">
-            <p>Tube</p>
-        </div>
-        <div class="tab">
-            <img src={notification} alt="" />
-            <p>Vacuum</p>
-        </div>
-        <div class="tab">
-            <p>Interior</p>
-        </div>
-        <div class="tab">
-            <p>Propulsion</p>
-        </div>
-        <div class="tab">
-            <p>Levitation</p>
-        </div>
+        {#each $subsystemList as subsystem}
+            <div
+                class="tab"
+                class:selected={subsystem === selectedSubsystem}
+                on:click={() => clickSubsystemTab(subsystem)}
+            >
+                <!-- Show ! icon if there is notification, next to subclass tab  -->
+                {#if $subsystemNotification[subsystem]}
+                    <img src={notification} alt="" />
+                {/if}
+
+                <!-- Capitalize first letter of subsystem name -->
+                <p>{subsystem[0].toUpperCase() + subsystem.substring(1)}</p>
+            </div>
+        {/each}
     </div>
 </div>
 

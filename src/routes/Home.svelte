@@ -1,51 +1,78 @@
-<script context="module" lang="ts">
-    import logo from '../assets/logo.svg'
-    import notification from '../assets/notification.svg'
+<script>
+    import LeftLower from '../components/LeftLower.svelte'
+    import LeftUpper from '../components/LeftUpper.svelte'
+    import RightLower from '../components/RightLower.svelte'
+    import RightUpper from '../components/RightUpper.svelte'
+    import Main from '../components/Main.svelte'
+    import TopMenu from '../components/TopMenu.svelte'
+
+    // Highlight specific tab and display subsystem in the main area
+    let selectedSubsystem = 'tube'
+    function handleSubsystemSelected(event) {
+        selectedSubsystem = event.detail
+    }
 </script>
 
-<div class="fullscreen">
-    <div class="side-menu">
-        <div class="upper">
-            <h1>SENSORS</h1>
+<div class="grid-container">
+    <div class="top-nav">
+        <TopMenu
+            on:subsystemSelected={handleSubsystemSelected}
+            {selectedSubsystem}
+        />
+    </div>
+    <div class="left-nav">
+        <div class="side-grid">
+            <div class="upper"><LeftUpper /></div>
+            <div class="distancer" />
+            <div class="lower"><LeftLower /></div>
         </div>
-        <div class="lower">
-            <h1>ACTORS</h1>
+    </div>
+    <div class="main"><Main {selectedSubsystem} /></div>
+    <div class="right-nav">
+        <div class="side-grid">
+            <div class="upper"><RightUpper /></div>
+            <div class="distancer" />
+            <div class="lower"><RightLower /></div>
         </div>
     </div>
 </div>
 
 <style>
-    .fullscreen {
+    .grid-container {
         background-color: #212121;
-        width: 100vw;
-        height: 100vh;
-        overflow-x: scroll;
-        overflow-y: scroll;
+        width: 1920px;
+        height: 1080px;
+
+        display: grid;
+        grid-template-columns: 246px auto 246px;
+        grid-template-rows: 40px auto;
     }
 
-    .side-menu {
+    .top-nav {
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
+    .left-nav {
         background-color: #212121;
-        height: 100%;
-        width: 246px;
-        display: flex;
-        flex-flow: column;
-        position: relative;
+    }
+    .main {
+        background-color: #212121;
+    }
+    .right-nav {
+        background-color: #212121;
+    }
 
-        justify-content: space-between;
+    .side-grid {
+        height: 100%;
+        width: 100%;
+        display: grid;
+        grid-template-rows: 1fr 5px 1fr;
+        grid-template-columns: 100%;
     }
     .upper {
-        height: 49%;
-        width: 100%;
         background-color: #303030;
     }
     .lower {
-        height: 49%;
-        width: 100%;
         background-color: #303030;
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-    }
-    h1 {
     }
 </style>

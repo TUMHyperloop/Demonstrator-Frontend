@@ -1,14 +1,17 @@
 <script>
-    import Sensor from './Sensor.svelte'
+    import LeftMenuButton from './LeftMenuButton.svelte'
+    import SideMenuTitle from './SideMenuTitle.svelte'
 </script>
 
 <div class="wrapper">
     <div class="content">
-        <Sensor /><Sensor /><Sensor /><Sensor /><Sensor />
+        <LeftMenuButton name="Temperature 1" value="10°C" />
+        <LeftMenuButton name="Temperature 1" value="10°C" />
+        <LeftMenuButton name="Temperature 1" value="10°C" />
+        <LeftMenuButton name="Temperature 1" value="10°C" />
     </div>
-    <div class="title">
-        <p>SENSORS</p>
-    </div>
+
+    <SideMenuTitle title="sensors" />
 </div>
 
 <style>
@@ -20,12 +23,5 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-    }
-    .title p {
-        font-family: 'Poppins';
-        font-size: 40px;
-        color: #212121;
-        text-align: end;
-        margin-right: 10px;
     }
 </style>

@@ -1,6 +1,11 @@
+<script>
+    export let name = ''
+    export let value = ''
+</script>
+
 <div class="sensor-wrapper">
-    <div class="sensor-name">Temperature 1</div>
-    <div class="sensor-value">10 °C</div>
+    <div class="sensor-name">{name}</div>
+    <div class="sensor-value">{value}</div>
 </div>
 
 <style>
@@ -14,7 +19,7 @@
         justify-content: space-between;
         color: white;
         font-family: 'Poppins';
-        font-size: 14px;
+        font-size: 15px;
         align-items: center;
         cursor: pointer;
     }
