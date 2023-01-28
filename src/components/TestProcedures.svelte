@@ -9,9 +9,7 @@
     import queuedSvg from '../assets/timeline-queued.svg'
     import { onMount } from 'svelte'
 
-    onMount(() => {
-        console.log(document.querySelectorAll())
-    })
+    onMount(() => {})
 </script>
 
 <h1>STATE</h1>
@@ -39,6 +37,7 @@
             </div>
         </div>
     </div>
+    <button> CONTINUE </button>
 </div>
 
 <style>
@@ -60,8 +59,8 @@
         margin-left: 15px;
     }
     .task {
-        position: absolute;
-        top: 20px;
+        position: relative;
+        margin-top: 20px;
         left: -13px;
         display: flex;
         flex-direction: row;
@@ -137,5 +136,19 @@
         padding: 3px 20px;
         border: 1px solid #636363;
         border-radius: 8px 8px 8px 0px;
+    }
+    button {
+        width: 154px;
+        height: 38px;
+        background: white;
+        font-family: 'Poppins';
+        letter-spacing: 0.035rem;
+        color: #212121;
+        font-size: 21px;
+        font-weight: 600;
+        border-radius: 0px 5px 5px 0px;
+        position: relative;
+        margin-top: 20px;
+        left: 5px;
     }
 </style>

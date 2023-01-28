@@ -5,7 +5,7 @@
     export let selectedSubsystem = 'tube'
 </script>
 
-<SubsystemControl subsystemName={selectedSubsystem} testInProgress={false} />
+<SubsystemControl subsystemName={selectedSubsystem} />
 
 <style>
 </style>
