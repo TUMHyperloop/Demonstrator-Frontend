@@ -17,11 +17,11 @@ export const subsystemToTest = writable({
 })
 
 export const testStatus = writable({
-    active: false,
+    active: true,
     completed: false,
     failed: false,
     tube: {
-        active: false,
+        active: true,
         completed: false,
         failed: false,
         stepsTotal: 5,

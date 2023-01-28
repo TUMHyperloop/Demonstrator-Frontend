@@ -1,19 +1,20 @@
 <script>
     import infoSvg from '../assets/info.svg'
-    import { subsystemToTest } from '../stores/test.config'
-    export let testInProgress = false
+    import { subsystemToTest, testStatus } from '../stores/test.config'
     export let subsystemName = 'Subsystem Name'
+    import TestProcedures from './TestProcedures.svelte'
 
     function toggleSubsystemToTest() {
         $subsystemToTest[subsystemName] = !$subsystemToTest[subsystemName]
     }
 </script>
 
-{#if testInProgress}
+{#if $testStatus.active}
     <div class="in-progress">
         <img src={infoSvg} alt="" />
         <h1>{subsystemName.toUpperCase()} TEST IN PROGRESS...</h1>
     </div>
+    <TestProcedures {subsystemName} />
 {:else if $subsystemToTest[subsystemName] == false}
     <div class="start-new">
         <h1>ADD {subsystemName.toUpperCase()} TO NEXT TEST</h1>
@@ -49,6 +50,10 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        margin: 5px 0 0 10px;
+    }
+    .in-progress > img {
+        margin-right: 10px;
     }
     .start-new > h1 {
         margin: 5px 0 0 10px;
