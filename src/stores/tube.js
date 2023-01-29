@@ -2,14 +2,14 @@ import { writable } from 'svelte/store'
 
 // maps {state: {transitionVariable: targetValue}} or
 // {state: {subsystem : {subsystemTransitionVar: targetValue}}}
-export const tubeSteps = writable([
+let tubeSteps = [
     {
         modeName: 'idle',
-        status: 'completed',
+        status: 'progress',
         interactionFlow: [
             {
-                subModeName: null,
-                status: 'completed',
+                subModeName: 'hello 2',
+                status: 'progress',
                 modeVariables: [
                     {
                         name: 'fbTubeControl.Mode',
@@ -17,64 +17,8 @@ export const tubeSteps = writable([
                         status: 'progress',
                     },
                     {
-                        name: 'fbTubeControl.state',
-                        value: 'Idling',
-                        status: 'queued',
-                    },
-                ],
-            },
-        ],
-        transitionAction: {
-            description: 'Continue',
-            variableName: 'fbTransitionToOperational',
-            valueToWrite: true,
-            status: 'progress',
-        },
-    },
-    {
-        modeName: 'initialize',
-        interactionFlow: [
-            {
-                subModeName: null,
-                modeVariables: [
-                    {
-                        name: 'TubeLightControl.Lights[0]',
-                        value: 'NOT ERROR',
-                        status: 'completed',
-                    },
-                    {
-                        name: 'TubeOperationMonitoring.CTR1000N',
-                        value: 'NOT ERROR',
-                        status: 'progress',
-                    },
-                    {
-                        name: 'TubeOperatingMonitoring.HIH4030',
-                        value: 'ERROR 3',
-                        status: 'queued',
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        modeName: 'operational',
-        interactionFlow: [
-            {
-                subModeName: 'setting vacuumm pumps',
-                modeVariables: [
-                    {
-                        name: 'TubeLightControl.Lights[i]',
-                        value: 'NOT ERROR',
-                        status: 'queued',
-                    },
-                    {
-                        name: 'TubeOperationMonitoring.CTR1000N',
-                        value: 'NOT ERROR',
-                        status: 'queued',
-                    },
-                    {
-                        name: 'TubeOperatingMonitoring.HIH4030',
-                        value: 'TARGET 3',
+                        name: 'fbTubeControl',
+                        value: 'Idlingfdsfd',
                         status: 'queued',
                     },
                 ],
@@ -86,51 +30,111 @@ export const tubeSteps = writable([
                 },
             },
             {
-                subModeName: 'close tube door',
-                modeVariables: [
-                    {
-                        name: 'TubeDoor Pneumatic Actuator',
-                        value: 'NOT ERROR',
-                        status: 'queued',
-                    },
-                ],
-            },
-            {
-                subModeName: 'establish vacuum',
-                modeVariables: [
-                    {
-                        name: 'Vacuum Pump Start',
-                        value: 'TRUE',
-                        status: 'queued',
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        modeName: 'shutdown',
-        interactionFlow: [
-            {
-                subModeName: null,
+                subModeName: 'hello world',
+                status: 'progress',
                 modeVariables: [
                     {
                         name: 'fbTubeControl.Mode',
-                        value: 'SHUTDOWN',
-                        status: 'queued',
+                        value: 'IDLE',
+                        status: 'progress',
                     },
                     {
-                        name: 'fbTubeControl.state',
-                        value: 'Shut',
+                        name: 'fbTubeControl',
+                        value: 'Idlingfdsfd',
                         status: 'queued',
                     },
-                    { name: 'isShutdowned', value: 'true', status: 'queued' },
                 ],
                 userAction: {
-                    description: 'Done',
+                    description: 'Continue',
                     variableName: 'fbTransitionToOperational',
                     valueToWrite: true,
+                    status: 'progress',
                 },
             },
         ],
+        transitionAction: {
+            description: 'Continue',
+            variableName: 'fbTransitionToOperational',
+            valueToWrite: true,
+            status: 'progress',
+        },
     },
-])
+    {
+        modeName: 'idle',
+        status: 'completed',
+        interactionFlow: [
+            {
+                subModeName: 'hello 2',
+                status: 'progress',
+                modeVariables: [
+                    {
+                        name: 'fbTubeControl.Mode',
+                        value: 'IDLE',
+                        status: 'progress',
+                    },
+                    {
+                        name: 'fbTubeControl',
+                        value: 'Idlingfdsfd',
+                        status: 'queued',
+                    },
+                ],
+                userAction: {
+                    description: 'Continue',
+                    variableName: 'fbTransitionToOperational',
+                    valueToWrite: true,
+                    status: 'progress',
+                },
+            },
+            {
+                subModeName: 'hello world',
+                status: 'progress',
+                modeVariables: [
+                    {
+                        name: 'fbTubeControl.Mode',
+                        value: 'IDLE',
+                        status: 'progress',
+                    },
+                    {
+                        name: 'fbTubeControl',
+                        value: 'Idlingfdsfd',
+                        status: 'queued',
+                    },
+                ],
+                userAction: {
+                    description: 'Continue',
+                    variableName: 'fbTransitionToOperational',
+                    valueToWrite: true,
+                    status: 'progress',
+                },
+            },
+        ],
+        transitionAction: {
+            description: 'Continue',
+            variableName: 'fbTransitionToOperational',
+            valueToWrite: true,
+            status: 'progress',
+        },
+    },
+]
+
+let vacuumSteps = []
+let interiorSteps = []
+let propulsionSteps = []
+let levitationSteps = []
+
+export const allSteps = writable({
+    tube: tubeSteps,
+    vacuum: vacuumSteps,
+    interior: interiorSteps,
+    propulsion: propulsionSteps,
+    levitation: levitationSteps,
+})
+
+allSteps.update((steps) => {
+    steps.tube = tubeSteps
+    steps.vacuum = vacuumSteps
+    steps.interior = interiorSteps
+    steps.propulsion = propulsionSteps
+    steps.levitation = levitationSteps
+    return steps
+})

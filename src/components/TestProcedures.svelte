@@ -1,20 +1,20 @@
 <script>
     import { subsystemToTest, testStatus } from '../stores/test.config'
-    import { tubeSteps } from '../stores/tube'
+    import { allSteps } from '../stores/tube'
 
-    export let subsystemName = ''
+    export let subsystemName = 'tube'
 
     import Task from './Task.svelte'
     import { onMount } from 'svelte'
-    import TaskWithSubcategories from './TaskWithSubcategories.svelte'
 
     onMount(() => {})
 </script>
 
 <h1>STATE</h1>
 <div class="timeline">
-    <Task config={$tubeSteps[0]} />
-    <TaskWithSubcategories />
+    {#each $allSteps[subsystemName] as step, index}
+        <Task config={step} />
+    {/each}
 </div>
 
 <style>

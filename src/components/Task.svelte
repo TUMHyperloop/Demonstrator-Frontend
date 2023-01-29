@@ -88,29 +88,48 @@
             <h3>{config.modeName.toUpperCase()}</h3>
 
             <div class="beckhoff-container" bind:this={taskElement}>
-                <div class="subcategory">
-                    <div class="subcategory-distancer" />
-                    <img src={completedSvg} alt="" />
-
-                    <h5>SETTING VACUUM PUMPS</h5>
-                </div>
-
-                <div class="live-feed">
-                    <img src={liveSvg} alt="" /> LIVE FEED
-                </div>
-
+                <!-- Loops over each subsystem (interaction) if more than 1 -->
                 {#each config.interactionFlow as interaction}
-                    {#each interaction.modeVariables as modeVariable}
-                        <div class="single-value">
-                            <img src={getSvg(modeVariable.status)} alt="" />
-                            <p class="variable">{modeVariable.name}</p>
-                            <p class="value">{modeVariable.value}</p>
+                    <!-- Name of the subtask (if present) -->
+                    {#if interaction.subModeName != null}
+                        <div class="subcategory">
+                            <div class="subcategory-distancer" />
+                            <img src={getSvg(interaction.status)} alt="" />
+
+                            <h5>{interaction.subModeName.toUpperCase()}</h5>
                         </div>
-                    {/each}
+                    {/if}
+
+                    <!-- Show variables only if the subtask is in progress -->
+                    {#if interaction.status == 'progress'}
+                        <!-- Live feed -->
+                        <div
+                            class="live-feed"
+                            class:multicat-live-feed={interaction.subModeName !=
+                                null}
+                        >
+                            <img src={liveSvg} alt="" /> LIVE FEED
+                        </div>
+                        <!-- Loops over every variable that has to be set in the interaction -->
+                        {#each interaction.modeVariables as modeVariable}
+                            <!-- Beckhoff variables -->
+                            <div
+                                class="single-value"
+                                class:multicat-single-value={interaction.subModeName !=
+                                    null}
+                            >
+                                <img src={getSvg(modeVariable.status)} alt="" />
+                                <p class="variable">{modeVariable.name}</p>
+                                <p class="value">{modeVariable.value}</p>
+                            </div>
+                        {/each}
+                    {/if}
 
                     <!-- Transtitions to the next subtask (simple tasks dont have this action) -->
                     {#if interaction.subModeName != null && interaction.userAction.status == 'progress'}
                         <button
+                            class:multicat-button={interaction.subModeName !=
+                                null}
                             >{interaction.userAction.description.toUpperCase()}</button
                         >
                     {/if}
@@ -119,7 +138,7 @@
         </div>
     </div>
 
-    <!-- Transitions to the next task -->
+    <!-- Transitions to the next haupt task -->
     {#if config.transitionAction.status == 'progress'}
         <button>
             {config.transitionAction.description.toUpperCase()}
@@ -168,6 +187,7 @@
         letter-spacing: 0.075rem;
         color: white;
         display: flex;
+        white-space: nowrap;
     }
     .beckhoff-container {
         margin-top: 30px;
@@ -180,15 +200,21 @@
         color: white;
         position: relative;
         float: right;
-        top: -14px;
+        top: -10px;
+    }
+    .multicat-live-feed {
+        top: -19px;
     }
     .beckhoff-container > .single-value {
         display: flex;
         flex-direction: row;
         align-items: flex-end;
-        margin-top: 5px;
+        margin-top: 8px;
         justify-content: space-between;
         margin-left: 10px;
+    }
+    .multicat-single-value {
+        margin-left: 60px !important;
     }
     .single-value > img {
         height: 18px;
@@ -224,9 +250,55 @@
         font-size: 21px;
         font-weight: 600;
         border-radius: 0px 5px 5px 0px;
-        margin-top: 20px;
         position: relative;
+        margin-top: 5px;
         left: 5px;
         cursor: pointer;
+    }
+    .multicat-button {
+        left: -23px !important;
+        margin-bottom: 15px;
+        margin-top: 20px;
+    }
+    .subcategory {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        align-items: center;
+        left: -25px;
+        margin-bottom: 5px;
+    }
+    .subcategory-distancer {
+        margin-right: 5px;
+        width: 30px;
+        height: 15px;
+        border-left: 1px solid white;
+        border-bottom: 1px solid white;
+        position: relative;
+        top: -5px;
+    }
+    .subcategory > h5 {
+        font-family: 'Poppins';
+        font-weight: 300;
+        font-size: 19px;
+        letter-spacing: 0.075rem;
+        color: white;
+    }
+    .subcategory > img {
+        height: 18px;
+        width: 18px;
+        margin-right: 5px;
+    }
+    /* Infinite rotation of the buffer wheel */
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    .rotate {
+        animation: rotate 3s ease-in-out infinite;
     }
 </style>
