@@ -1,5 +1,6 @@
 <script>
     import { subsystemToTest, testStatus } from '../stores/test.config'
+    import { tubeSteps } from '../stores/tube'
 
     export let subsystemName = ''
 
@@ -12,7 +13,7 @@
 
 <h1>STATE</h1>
 <div class="timeline">
-    <Task />
+    <Task config={$tubeSteps[0]} />
     <TaskWithSubcategories />
 </div>
 

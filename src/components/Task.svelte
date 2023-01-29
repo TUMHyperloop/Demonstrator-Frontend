@@ -7,6 +7,9 @@
     import liveSvg from '../assets/live-dot.svg'
     import { onMount } from 'svelte'
 
+    export let config = null
+
+    // Creates table like structure for Beckhoff variables
     let taskElement = null
     onMount(() => {
         // Get the width of the longest variable name
@@ -55,38 +58,73 @@
             'maxValueWidth: ' + maxValueWidth,
         )
     })
+
+    // Determine which svg to use based on the status of a task
+    function getSvg(statusText) {
+        if (statusText == 'completed') {
+            return completedSvg
+        } else if (statusText == 'error') {
+            return errorSvg
+        } else if (statusText == 'progress') {
+            return progressSvg
+        } else if (statusText == 'warning') {
+            return warningSvg
+        } else if (statusText == 'queued') {
+            return queuedSvg
+        }
+    }
 </script>
 
 <div class="holder">
     <div class="task">
-        <img src={completedSvg} alt="" />
+        <img src={getSvg(config.status)} alt="" />
+
         <div class="distancer">
-            <h4>COMPLETED</h4>
+            <h4>{config.status.toUpperCase()}</h4>
             <div class="underline" />
         </div>
+
         <div class="live-tracking">
-            <h3>IDLE</h3>
+            <h3>{config.modeName.toUpperCase()}</h3>
 
             <div class="beckhoff-container" bind:this={taskElement}>
+                <div class="subcategory">
+                    <div class="subcategory-distancer" />
+                    <img src={completedSvg} alt="" />
+
+                    <h5>SETTING VACUUM PUMPS</h5>
+                </div>
+
                 <div class="live-feed">
                     <img src={liveSvg} alt="" /> LIVE FEED
                 </div>
 
-                <div class="single-value">
-                    <img src={completedSvg} alt="" />
-                    <p class="variable">fbTubeControl</p>
-                    <p class="value">Idling</p>
-                </div>
+                {#each config.interactionFlow as interaction}
+                    {#each interaction.modeVariables as modeVariable}
+                        <div class="single-value">
+                            <img src={getSvg(modeVariable.status)} alt="" />
+                            <p class="variable">{modeVariable.name}</p>
+                            <p class="value">{modeVariable.value}</p>
+                        </div>
+                    {/each}
 
-                <div class="single-value">
-                    <img src={completedSvg} alt="" />
-                    <p class="variable">fbTubeControl.state</p>
-                    <p class="value">fjdkahfdljk</p>
-                </div>
+                    <!-- Transtitions to the next subtask (simple tasks dont have this action) -->
+                    {#if interaction.subModeName != null && interaction.userAction.status == 'progress'}
+                        <button
+                            >{interaction.userAction.description.toUpperCase()}</button
+                        >
+                    {/if}
+                {/each}
             </div>
         </div>
     </div>
-    <button> CONTINUE </button>
+
+    <!-- Transitions to the next task -->
+    {#if config.transitionAction.status == 'progress'}
+        <button>
+            {config.transitionAction.description.toUpperCase()}
+        </button>
+    {/if}
 </div>
 
 <style>
@@ -186,8 +224,8 @@
         font-size: 21px;
         font-weight: 600;
         border-radius: 0px 5px 5px 0px;
-        position: relative;
         margin-top: 20px;
+        position: relative;
         left: 5px;
         cursor: pointer;
     }
