@@ -5,6 +5,7 @@
 
     import Task from './Task.svelte'
     import { onMount } from 'svelte'
+    import TaskWithSubcategories from './TaskWithSubcategories.svelte'
 
     onMount(() => {})
 </script>
@@ -12,6 +13,7 @@
 <h1>STATE</h1>
 <div class="timeline">
     <Task />
+    <TaskWithSubcategories />
 </div>
 
 <style>

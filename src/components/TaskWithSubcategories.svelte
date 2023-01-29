@@ -68,6 +68,13 @@
             <h3>IDLE</h3>
 
             <div class="beckhoff-container" bind:this={taskElement}>
+                <div class="subcategory">
+                    <div class="subcategory-distancer" />
+                    <img src={completedSvg} alt="" />
+
+                    <h5>SETTING VACUUM PUMPS</h5>
+                </div>
+
                 <div class="live-feed">
                     <img src={liveSvg} alt="" /> LIVE FEED
                 </div>
@@ -86,6 +93,7 @@
             </div>
         </div>
     </div>
+    <button style="margin-left: 130px;"> NEXT STEP </button>
     <button> CONTINUE </button>
 </div>
 
@@ -142,7 +150,7 @@
         color: white;
         position: relative;
         float: right;
-        top: -14px;
+        top: -19px;
     }
     .beckhoff-container > .single-value {
         display: flex;
@@ -150,7 +158,7 @@
         align-items: flex-end;
         margin-top: 5px;
         justify-content: space-between;
-        margin-left: 10px;
+        margin-left: 60px;
     }
     .single-value > img {
         height: 18px;
@@ -190,5 +198,35 @@
         margin-top: 20px;
         left: 5px;
         cursor: pointer;
+    }
+    .subcategory {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        align-items: center;
+
+        left: -25px;
+        margin-bottom: 10px;
+    }
+    .subcategory-distancer {
+        margin-right: 5px;
+        width: 30px;
+        height: 15px;
+        border-left: 1px solid white;
+        border-bottom: 1px solid white;
+        position: relative;
+        top: -5px;
+    }
+    .subcategory > h5 {
+        font-family: 'Poppins';
+        font-weight: 300;
+        font-size: 19px;
+        letter-spacing: 0.075rem;
+        color: white;
+    }
+    .subcategory > img {
+        height: 18px;
+        width: 18px;
+        margin-right: 5px;
     }
 </style>
