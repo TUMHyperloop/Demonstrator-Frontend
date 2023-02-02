@@ -9,12 +9,17 @@
     }
 </script>
 
-{#if $testStatus.active}
+{#if $testStatus.active && $testStatus[subsystemName].active == true}
     <div class="in-progress">
         <img src={infoSvg} alt="" />
-        <h1>{subsystemName.toUpperCase()} TEST IN PROGRESS...</h1>
+        <h1>{subsystemName.toUpperCase()} TEST IN PROGRESS</h1>
     </div>
     <TestProcedures {subsystemName} />
+{:else if $testStatus[subsystemName].active == false}
+    <div class="in-progress">
+        <img src={infoSvg} alt="" />
+        <h1>{subsystemName.toUpperCase()} IS EXCLUDED FROM THE CURRENT TEST</h1>
+    </div>
 {:else if $subsystemToTest[subsystemName] == false}
     <div class="start-new">
         <h1>ADD {subsystemName.toUpperCase()} TO NEXT TEST</h1>

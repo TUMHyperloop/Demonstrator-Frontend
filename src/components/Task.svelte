@@ -5,13 +5,30 @@
     import warningSvg from '../assets/timeline-warning.svg'
     import queuedSvg from '../assets/timeline-queued.svg'
     import liveSvg from '../assets/live-dot.svg'
-    import { onMount } from 'svelte'
+    import { afterUpdate } from 'svelte'
 
     export let config = null
+    export let subsystemName = null
+
+    // Remove the table styling
+    function resetWitdths() {
+        taskElement
+            .querySelectorAll('.single-value > .variable')
+            .forEach((variable) => {
+                variable.style.paddingRight = 0 + 'px'
+            })
+
+        // Set the width of all values to the longest value
+        taskElement
+            .querySelectorAll('.single-value > .value')
+            .forEach((value) => {
+                value.style.paddingLeft = 0 + 'px'
+                value.style.paddingRight = 0 + 'px'
+            })
+    }
 
     // Creates table like structure for Beckhoff variables
-    let taskElement = null
-    onMount(() => {
+    function setWidths() {
         // Get the width of the longest variable name
         let variableWidths = []
         taskElement
@@ -52,11 +69,15 @@
                 value.style.paddingRight =
                     (maxValueWidth - initialWidth) / 2 + 20 + 'px'
             })
+    }
 
-        console.log(
-            'maxVariableWidth: ' + maxVariableWidth,
-            'maxValueWidth: ' + maxValueWidth,
-        )
+    // Will be called after onMount
+    afterUpdate(() => {
+        // Reset the widths of the variables
+        resetWitdths()
+
+        // Set the widths of the variables
+        setWidths()
     })
 
     // Determine which svg to use based on the status of a task
@@ -73,6 +94,8 @@
             return queuedSvg
         }
     }
+
+    let taskElement = null
 </script>
 
 <div class="holder">
@@ -87,8 +110,8 @@
         <div class="live-tracking">
             <h3>{config.modeName.toUpperCase()}</h3>
 
+            <!-- Loops over each subsystem (interaction) if more than 1 -->
             <div class="beckhoff-container" bind:this={taskElement}>
-                <!-- Loops over each subsystem (interaction) if more than 1 -->
                 {#each config.interactionFlow as interaction}
                     <!-- Name of the subtask (if present) -->
                     {#if interaction.subModeName != null}
@@ -128,6 +151,22 @@
                     <!-- Transtitions to the next subtask (simple tasks dont have this action) -->
                     {#if interaction.subModeName != null && interaction.userAction.status == 'progress'}
                         <button
+                            on:click={() => {
+                                fetch(
+                                    'http://localhost:3000/' + subsystemName,
+                                    {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({
+                                            type: 'user-action',
+                                            name: interaction.userAction
+                                                .variableName,
+                                        }),
+                                    },
+                                )
+                            }}
                             class:multicat-button={interaction.subModeName !=
                                 null}
                             >{interaction.userAction.description.toUpperCase()}</button
@@ -140,7 +179,20 @@
 
     <!-- Transitions to the next haupt task -->
     {#if config.transitionAction.status == 'progress'}
-        <button>
+        <button
+            on:click={() => {
+                fetch('http://localhost:3000/' + subsystemName, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: 'transition-action',
+                        name: config.transitionAction.variableName,
+                    }),
+                })
+            }}
+        >
             {config.transitionAction.description.toUpperCase()}
         </button>
     {/if}
@@ -192,6 +244,7 @@
     .beckhoff-container {
         margin-top: 30px;
     }
+
     .live-feed {
         font-family: 'Poppins';
         font-weight: 300;
@@ -203,7 +256,7 @@
         top: -10px;
     }
     .multicat-live-feed {
-        top: -19px;
+        top: -16px;
     }
     .beckhoff-container > .single-value {
         display: flex;
@@ -266,7 +319,8 @@
         position: relative;
         align-items: center;
         left: -25px;
-        margin-bottom: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
     .subcategory-distancer {
         margin-right: 5px;

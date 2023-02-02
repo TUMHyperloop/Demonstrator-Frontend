@@ -10,12 +10,16 @@
     onMount(() => {})
 </script>
 
-<h1>STATE</h1>
-<div class="timeline">
-    {#each $allSteps[subsystemName] as step, index}
-        <Task config={step} />
-    {/each}
-</div>
+{#if $allSteps[subsystemName].length == 0}
+    <h1>CONNECTING TO SERVER...</h1>
+{:else}
+    <h1>STATE</h1>
+    <div class="timeline">
+        {#each $allSteps[subsystemName] as step, index}
+            <Task config={step} {subsystemName} />
+        {/each}
+    </div>
+{/if}
 
 <style>
     h1 {
