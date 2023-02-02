@@ -153,7 +153,8 @@
                         <button
                             on:click={() => {
                                 fetch(
-                                    'http://localhost:3000/' + subsystemName,
+                                    'http://localhost:3000/subsystem/' +
+                                        subsystemName,
                                     {
                                         method: 'POST',
                                         headers: {
@@ -181,7 +182,7 @@
     {#if config.transitionAction.status == 'progress'}
         <button
             on:click={() => {
-                fetch('http://localhost:3000/' + subsystemName, {
+                fetch('http://localhost:3000/subsystem/' + subsystemName, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

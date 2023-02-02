@@ -12,24 +12,9 @@ app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`)
 })
 
-app.get('/tube', (req, res) => {
-    res.json(tubeSteps)
-})
-
-app.get('/vacuum', (req, res) => {
-    res.json(vacuumSteps)
-})
-
-app.get('/interior', (req, res) => {
-    res.json(interiorSteps)
-})
-
-app.get('/propulsion', (req, res) => {
-    res.json(propulsionSteps)
-})
-
-app.get('/levitation', (req, res) => {
-    res.json(levitationSteps)
+app.get('/subsystem/:subsystemName', (req, res) => {
+    const subsystemName = req.params.subsystemName
+    res.json(allSteps[subsystemName])
 })
 
 app.post('/subsystem/:subsystemName', (req, res) => {
@@ -37,6 +22,12 @@ app.post('/subsystem/:subsystemName', (req, res) => {
 
     const data = req.body
 
+    setSubsystemVarialbe(subsystemName, data)
+
+    res.json({})
+})
+
+function setSubsystemVarialbe(subsystemName, data) {
     if (data.type == 'transition-action') {
         let varialbeName = data.name
 
@@ -199,35 +190,6 @@ app.post('/subsystem/:subsystemName', (req, res) => {
             }
         }
     }
-    res.json({})
-})
-
-app.post('/vacuum', (req, res) => {
-    const { definition } = req.body
-    res.json({})
-})
-
-app.post('/interior', (req, res) => {
-    const { definition } = req.body
-    res.json({})
-})
-
-app.post('/propulsion', (req, res) => {
-    const { definition } = req.body
-    res.json({})
-})
-
-app.post('/levitation', (req, res) => {
-    const { definition } = req.body
-    res.json({})
-})
-
-let allSteps = {
-    tube: tubeSteps,
-    vacuum: vacuumSteps,
-    interior: interiorSteps,
-    propulsion: propulsionSteps,
-    levitation: levitationSteps,
 }
 
 let tubeSteps = [
@@ -941,3 +903,11 @@ let levitationSteps = [
         },
     },
 ]
+
+let allSteps = {
+    tube: tubeSteps,
+    vacuum: vacuumSteps,
+    interior: interiorSteps,
+    propulsion: propulsionSteps,
+    levitation: levitationSteps,
+}

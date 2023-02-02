@@ -4,7 +4,7 @@ import { writable } from 'svelte/store'
 // {state: {subsystem : {subsystemTransitionVar: targetValue}}}
 
 async function getTubeDefinition(subsystem) {
-    const response = await fetch('http://localhost:3000/' + subsystem)
+    const response = await fetch('http://localhost:3000/subsystem/' + subsystem)
     if (!response) return []
     const data = await response.json()
     return data
