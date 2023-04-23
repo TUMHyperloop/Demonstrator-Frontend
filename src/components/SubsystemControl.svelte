@@ -1,69 +1,115 @@
 <script>
-    import infoSvg from '../assets/info.svg'
-    import { subsystemToTest, testStatus } from '../stores/test.config'
+    import { onMount } from 'svelte'
     export let subsystemName = 'Subsystem Name'
-    import TestProcedures from './TestProcedures.svelte'
+    import { subsystemConfig, saveSubsystemConfig } from '../stores/test.vars'
 
-    function toggleSubsystemToTest() {
-        $subsystemToTest[subsystemName] = !$subsystemToTest[subsystemName]
+    function addVar() {
+        let newVar = {
+            name: '',
+            value: '',
+        }
+
+        $subsystemConfig[subsystemName] = [
+            ...$subsystemConfig[subsystemName],
+            newVar,
+        ]
+        saveSubsystemConfig(subsystemName)
+    }
+
+    function removeElem(index) {
+        $subsystemConfig[subsystemName] = $subsystemConfig[
+            subsystemName
+        ].filter((_, idx) => idx !== index)
+
+        saveSubsystemConfig(subsystemName)
+    }
+
+    function sendToPlc() {
+        console.log('Send to PLC')
+    }
+
+    function sendAllToPlc() {
+        console.log('Send all to PLC')
     }
 </script>
 
-{#if $testStatus.active && $testStatus[subsystemName].active == true}
-    <div class="in-progress">
-        <img src={infoSvg} alt="" />
-        <h1>{subsystemName.toUpperCase()} TEST IN PROGRESS</h1>
+{#each $subsystemConfig[subsystemName] as item, idx}
+    <div>
+        <input
+            class="var-name"
+            type="text"
+            placeholder="Variable name"
+            bind:value={item.name}
+            on:change={() => {
+                saveSubsystemConfig(subsystemName)
+            }}
+        />
+        <input
+            class="var-value"
+            type="text"
+            placeholder="Variable value"
+            bind:value={item.value}
+            on:change={() => {
+                saveSubsystemConfig(subsystemName)
+            }}
+        />
+        <button class="remove-elem" on:click={() => removeElem(idx)}
+            >Remove</button
+        >
+        <button class="send-to-backend"> Send to PLC </button>
     </div>
-    <TestProcedures {subsystemName} />
-{:else if $testStatus[subsystemName].active == false}
-    <div class="in-progress">
-        <img src={infoSvg} alt="" />
-        <h1>{subsystemName.toUpperCase()} IS EXCLUDED FROM THE CURRENT TEST</h1>
-    </div>
-{:else if $subsystemToTest[subsystemName] == false}
-    <div class="start-new">
-        <h1>ADD {subsystemName.toUpperCase()} TO NEXT TEST</h1>
-        <button on:click={toggleSubsystemToTest}>ADD</button>
-    </div>
-{:else if $subsystemToTest[subsystemName] == true}
-    <div class="start-new">
-        <h1>{subsystemName.toUpperCase()} IS SCHEDULED FOR TESTING</h1>
-        <button on:click={toggleSubsystemToTest}>REMOVE</button>
-    </div>
-{/if}
+{/each}
+
+<div>
+    <button on:click={addVar} class="add-var">Add new var</button>
+    <button class="send-all">Send all to PLC</button>
+</div>
 
 <style>
-    h1 {
+    .var-name,
+    .var-value {
         font-family: 'Poppins';
         font-weight: 500;
         color: white;
+        background-color: #212121;
+        outline: 4px solid white;
+        border-radius: 10px 0px 0px 10px;
         font-size: 23px;
-        letter-spacing: -0.075rem;
+        letter-spacing: -0.025rem;
+        margin: 20px 0 0 15px;
+        border: none;
+        padding: 0 10px;
     }
-    button {
-        height: 38px;
-        padding: 0 20px;
-        border-radius: 0px 5px 5px 0px;
-        background-color: white;
+    .var-name:focus,
+    .var-value:focus {
+        outline: 4px solid white !important;
+    }
+    .var-value {
+        border-radius: 0px 0px 0px 0px;
+    }
+
+    .send-to-backend,
+    .add-var,
+    .remove-elem,
+    .send-all {
         font-family: 'Poppins';
-        font-size: 21px;
         font-weight: 500;
-        letter-spacing: 0.035rem;
+        color: white;
+        background-color: white;
+        color: #212121;
+        font-size: 23px;
+        letter-spacing: -0.025rem;
+        margin: 15px 0 0 10px;
+        border: none;
         cursor: pointer;
+        height: 40px;
+        padding: 0 10px;
+        border-radius: 0px 10px 10px 0px;
     }
-    .in-progress {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin: 5px 0 0 10px;
+    .remove-elem {
+        border-radius: 0px 0px 0px 0px;
     }
-    .in-progress > img {
-        margin-right: 10px;
-    }
-    .start-new > h1 {
-        margin: 5px 0 0 10px;
-    }
-    .start-new > button {
-        margin: 5px 0 0 13px;
+    .add-var {
+        border-radius: 10px 0px 0px 10px;
     }
 </style>

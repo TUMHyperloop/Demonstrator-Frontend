@@ -30,11 +30,6 @@
                 class:selected={subsystem === selectedSubsystem}
                 on:click={() => clickSubsystemTab(subsystem)}
             >
-                <!-- Show ! icon if there is notification, next to subclass tab  -->
-                {#if $subsystemNotification[subsystem]}
-                    <img src={notification} alt="" />
-                {/if}
-
                 <!-- Capitalize first letter of subsystem name -->
                 <p>{subsystem[0].toUpperCase() + subsystem.substring(1)}</p>
             </div>
