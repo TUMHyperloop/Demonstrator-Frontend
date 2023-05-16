@@ -5,17 +5,17 @@
 
 <div class="wrapper">
     <div class="content">
-        <LeftMenuButton name="Temperature Pod Belly" value="22°C" />
-        <LeftMenuButton name="Temperature Pod Top" value="18°C" />
+        <LeftMenuButton name="Humidity Sensor" value="0 g.m^-3" />
+        <LeftMenuButton name="Distance Sensor #1" value="0 mm" />
+        <LeftMenuButton name="Distance Sensor #2" value="0 mm" />
         <LeftMenuButton name="Temperature #1" value="17°C" />
         <LeftMenuButton name="Temperature #2" value="17°C" />
         <LeftMenuButton name="Temperature #3" value="17°C" />
         <LeftMenuButton name="Temperature #4" value="18°C" />
-        <LeftMenuButton name="Small Force #1" value="18°C" />
-        <LeftMenuButton name="Small Force #2" value="18°C" />
-        <LeftMenuButton name="Small Force #3" value="18°C" />
-        <LeftMenuButton name="Small Force #4" value="18°C" />
-        <LeftMenuButton name="Big Force" value="18°C" />
+        <LeftMenuButton name="Temperature #5" value="18°C" />
+        <LeftMenuButton name="Temperature #6" value="18°C" />
+        <LeftMenuButton name="Temperature #7" value="18°C" />
+        <LeftMenuButton name="Temperature #8" value="18°C" />
     </div>
 
     <SideMenuTitle title="sensors" />

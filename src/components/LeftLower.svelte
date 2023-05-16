@@ -5,13 +5,12 @@
 
 <div class="wrapper">
     <div class="content">
-        <LeftMenuButton name="Motor #1" value="10 A" /><LeftMenuButton
-            name="Motor #2"
-            value="11 A"
-        /><LeftMenuButton name="Motor #3" value="13 A" /><LeftMenuButton
-            name="Motor #4"
-            value="11 A"
-        /><LeftMenuButton name="Motor #5" value="9 A" />
+        <LeftMenuButton
+            name="Pneumatic Sensor #1"
+            value="FALSE"
+        /><LeftMenuButton name="Pneumatic Sensor #2" value="FALSE" />
+        <LeftMenuButton name="Pneumatic Sensor #3" value="FALSE" />
+        <LeftMenuButton name="Solenoid Relais" value="ERROR" />
     </div>
 
     <SideMenuTitle title="actors" />

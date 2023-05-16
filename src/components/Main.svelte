@@ -1,11 +1,10 @@
 <script>
-    import SubsystemControl from './SubsystemControl.svelte'
-
+    import Tube from './Tube.svelte'
     // Get which window and subsystem to display
     export let selectedSubsystem = 'tube'
 </script>
 
-<SubsystemControl subsystemName={selectedSubsystem} />
+<Tube />
 
 <style>
 </style>
