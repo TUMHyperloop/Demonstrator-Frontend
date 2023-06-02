@@ -33,6 +33,7 @@
         let resp = await fetch('http://localhost:3000/api/isConnected')
         let data = await resp.json()
         isConnected = data.isConnected
+        console.log(isConnected)
 
         /* let connInterval = setInterval(async () => {
             let resp = await fetch('http://localhost:3000/api/isConnected')

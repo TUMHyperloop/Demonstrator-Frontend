@@ -6,7 +6,7 @@ const path = require('path')
 // Single object with preconfigured in client twincat connection data
 let plcManager = {
     client: new ads.Client({
-        targetAmsNetId: '169.254.113.74.1.1', //192.168.137.95.1.1
+        targetAmsNetId: '172.18.214.28.1.1', //192.168.137.95.1.1
         targetAdsPort: 851,
     }),
 
