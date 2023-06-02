@@ -5,7 +5,7 @@
 
 <div class="wrapper">
     <div class="content">
-        <LeftMenuButton name="Humidity Sensor" value="0 g.m^-3" />
+        <LeftMenuButton name="Humidity Sensor" value="0 gm/m3" />
         <LeftMenuButton name="Distance Sensor #1" value="0 mm" />
         <LeftMenuButton name="Distance Sensor #2" value="0 mm" />
         <LeftMenuButton name="Temperature #1" value="17°C" />

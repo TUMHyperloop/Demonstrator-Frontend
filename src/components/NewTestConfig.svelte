@@ -1,14 +1,14 @@
 <script>
-    import { subsystemList, subsystemToTest } from '../stores/test.config.js'
+    let subsystemList = ['vacuum', 'propulsion', 'levitation', 'tube']
 
-    function handleSubsystemClick(subsystem) {
-        $subsystemToTest[subsystem] = !$subsystemToTest[subsystem]
-    }
+    let subsystemToTest = {}
+
+    function handleSubsystemClick(subsystem) {}
 </script>
 
-{#each $subsystemList as subsystem}
+{#each subsystemList as subsystem}
     <div class="subsys-holder" on:click={() => handleSubsystemClick(subsystem)}>
-        <div class="selector" class:selected={$subsystemToTest[subsystem]} />
+        <div class="selector" class:selected={subsystemToTest[subsystem]} />
         <div class="subsystem">{subsystem.toUpperCase()}</div>
     </div>
 {/each}

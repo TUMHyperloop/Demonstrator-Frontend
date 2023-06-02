@@ -1,4 +1,9 @@
 <script>
+    import svgCompleted from '../assets/timeline-completed.svg'
+    import svgError from '../assets/timeline-error.svg'
+    import svgProgress from '../assets/timeline-progress.svg'
+    import svgQueued from '../assets/timeline-queued.svg'
+    import svgWarning from '../assets/timeline-warning.svg'
     import SideMenuTitle from './SideMenuTitle.svelte'
     import RightSubsystem from './RightSubsystem.svelte'
 </script>
@@ -7,25 +12,12 @@
     <div class="content">
         <div class="timeline">
             <div class="main-distancer" />
-            <h1>UP NEXT:</h1>
+            <h1>STATUS:</h1>
         </div>
-        <RightSubsystem
-            subsystemName="Tube Control"
-            actions={['Confirm Operational', 'Close Door']}
-        />
-        <RightSubsystem
-            subsystemName="Vacuum Control"
-            actions={['Initialize', 'Establish Vacuum']}
-        />
-        <div class="timeline">
-            <div class="main-distancer" />
-            <h1>CURRENT:</h1>
-        </div>
-        <RightSubsystem subsystemName="Tube Control" actions={['Initialize']} />
-        <div class="timeline">
-            <div class="main-distancer" />
-            <h1>PREVIOUS:</h1>
-        </div>
+        <RightSubsystem subsystemName="Tube Control" />
+        <RightSubsystem subsystemName="Vacuum Control" />
+        <RightSubsystem subsystemName="Propulsion Control" />
+        <RightSubsystem subsystemName="Levitation Control" />
     </div>
 
     <SideMenuTitle title="wizard" />

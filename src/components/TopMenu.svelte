@@ -1,12 +1,14 @@
 <script>
     import logo from '../assets/logo.svg'
     import notification from '../assets/notification.svg'
-
-    import { subsystemList, subsystemNotification } from '../stores/test.config'
-    import { createEventDispatcher } from 'svelte'
+    import { createEventDispatcher, onMount } from 'svelte'
+    import completedSvg from '../assets/timeline-completed.svg'
+    import errorSvg from '../assets/timeline-error.svg'
 
     // Get the selected tab to highlight
     export let selectedSubsystem
+
+    let subsystemList = ['configuration']
 
     // Create event dispatcher
     const dispatch = createEventDispatcher()
@@ -16,6 +18,31 @@
         // Dispatch event to parent, new selected subsystem
         dispatch('subsystemSelected', subsystemName)
     }
+
+    let isConnected = false
+    async function connectToPlc() {
+        await fetch('http://localhost:3000/api/connect', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+    }
+
+    onMount(async () => {
+        let resp = await fetch('http://localhost:3000/api/isConnected')
+        let data = await resp.json()
+        isConnected = data.isConnected
+
+        /* let connInterval = setInterval(async () => {
+            let resp = await fetch('http://localhost:3000/api/isConnected')
+            let data = await resp.json()
+            isConnected = data.isConnected
+        }, 1000)
+
+        // TODO: remove interval after 1 fetch
+        clearInterval(connInterval) */
+    })
 </script>
 
 <div class="top-menu">
@@ -24,7 +51,7 @@
         <p>Demonstrator</p>
     </div>
     <div class="main">
-        {#each $subsystemList as subsystem}
+        {#each subsystemList as subsystem}
             <div
                 class="tab"
                 class:selected={subsystem === selectedSubsystem}
@@ -34,6 +61,16 @@
                 <p>{subsystem[0].toUpperCase() + subsystem.substring(1)}</p>
             </div>
         {/each}
+
+        <div
+            class="tab"
+            class:selected={isConnected}
+            on:click={() => connectToPlc()}
+        >
+            <img src={isConnected ? completedSvg : errorSvg} alt="" />
+            <!-- Capitalize first letter of subsystem name -->
+            <p>{isConnected ? 'Connected to PLC' : 'Connect to PLC'}</p>
+        </div>
     </div>
 </div>
 
@@ -62,6 +99,7 @@
     }
     .main {
         display: flex;
+        justify-content: space-between;
     }
     .tab {
         height: 100%;

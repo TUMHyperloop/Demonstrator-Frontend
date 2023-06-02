@@ -1,8 +1,8 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import cors from 'cors'
-import path from 'path'
-import fs from 'fs'
+const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const path = require('path')
+const { plcManager } = require('./plcManager')
 
 // get the path to the current directory
 const currentDirectoryPath = path.dirname(process.argv[1])
@@ -17,49 +17,37 @@ app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`)
 })
 
-app.get('/subsystemVars/:subsystemName', (req, res) => {
-    const subsystemName = req.params.subsystemName
+app.post('/api/read', async (req, res) => {
+    const tcArray = req.body.tcArray
+    console.log('Read request for: ', tcArray)
 
-    // get the path to the interiorParams.json file
-    const filePath = path.join(
-        currentDirectoryPath,
-        `${subsystemName}Vars.json`,
-    )
-
-    // read the contents of the file
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        let reqBody = JSON.parse(data)
-
-        if (err) {
-            console.error(err)
-            res.status(500).send({ error: err })
-        } else {
-            res.json(reqBody)
-        }
+    await plcManager.readValues(tcArray).then((data) => {
+        console.log('Read data: ', data)
+        res.json(data)
     })
 })
 
-app.post('/subsystemVars/:subsystemName', (req, res) => {
-    const subsystemName = req.params.subsystemName
+app.post('/api/write', async (req, res) => {
+    const writeObj = req.body
+    console.log(writeObj)
 
-    // array of config vars
-    const vars = req.body
-
-    console.log(vars)
-
-    // get the path to the interiorParams.json file
-    const filePath = path.join(
-        currentDirectoryPath,
-        `${subsystemName}Vars.json`,
-    )
-
-    fs.writeFile(filePath, JSON.stringify(vars), 'utf8', (err) => {
-        if (err) {
-            res.status(500).send({ error: err })
-            throw err
-        } else {
-            // variables were saved
-            res.status(200).send({ message: 'Variables saved successfully' })
-        }
+    await plcManager.writeValues(writeObj).then((data) => {
+        console.log('Write data: ', data)
+        res.json(data)
     })
+})
+
+app.post('/api/connect', async (req, res) => {
+    console.log('request for connection')
+
+    await plcManager.connectToPlc().then((data) => {
+        console.log('Connected: ', data)
+        res.json(data)
+    })
+})
+
+app.get('/api/isConnected', (req, res) => {
+    console.log('request for connection status')
+
+    res.json(plcManager.isConnected)
 })

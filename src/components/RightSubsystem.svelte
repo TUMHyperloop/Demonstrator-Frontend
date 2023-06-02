@@ -1,16 +1,22 @@
 <script>
     export let subsystemName = 'Tube Control'
-    export let actions = ['Confirm Operational', 'Close Door']
+    import completedSvg from '../assets/timeline-completed.svg'
 </script>
 
 <div class="subsystem">
     <h2>{subsystemName}</h2>
-    {#each actions as action}
-        <div>
-            <div class="action">{action}</div>
-            <div class="subsystem-distancer" />
+    <div>
+        <div class="action">
+            <img src={completedSvg} alt="" /> <span>Activation Status</span>
         </div>
-    {/each}
+        <div class="subsystem-distancer" />
+    </div>
+    <div>
+        <div class="action">
+            <img src={completedSvg} alt="" /> <span>Ready for Op.</span>
+        </div>
+        <div class="subsystem-distancer" />
+    </div>
 </div>
 
 <style>
@@ -41,6 +47,8 @@
     .action {
         width: fit-content;
         margin-right: 7px;
+        display: flex;
+        align-items: center;
     }
     .subsystem-distancer {
         flex-grow: 1;
@@ -48,5 +56,10 @@
         margin-left: 5px;
         border-bottom: 1px solid #636363;
         border-right: 1px solid #636363;
+    }
+    .action img {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
     }
 </style>

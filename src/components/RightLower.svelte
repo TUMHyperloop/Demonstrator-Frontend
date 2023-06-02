@@ -1,28 +1,18 @@
 <script>
     import SideMenuTitle from './SideMenuTitle.svelte'
     import SubsystemSteps from './SubsystemSteps.svelte'
-    import { testStatus, subsystemList } from '../stores/test.config.js'
     import NewTestConfig from './NewTestConfig.svelte'
 
     function handleCancelTest() {}
 
     function handleStartTest() {}
+
+    let testActive = false
 </script>
 
 <div class="wrapper">
     <div class="content">
-        {#if $testStatus.active == true}
-            <h1>ACTIVE SYSTEMS</h1>
-            {#each $subsystemList as subsystem}
-                {#if $testStatus[subsystem].active == true}
-                    <SubsystemSteps
-                        subsystemNameShort={subsystem}
-                        stepsCompleted={$testStatus[subsystem].stepsCompleted}
-                        stepsTotal={$testStatus[subsystem].stepsTotal}
-                    />
-                {/if}
-            {/each}
-
+        {#if testActive == true}
             <button on:click={handleCancelTest}>CANCEL</button>
         {:else}
             <h1>SELECT SYSTEMS</h1>
