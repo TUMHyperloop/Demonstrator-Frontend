@@ -31,7 +31,7 @@ app.post('/api/write', async (req, res) => {
     const writeObj = req.body
     console.log(writeObj)
 
-    await plcManager.writeValues(writeObj).then((data) => {
+    await plcManager.writeToPlc(writeObj).then((data) => {
         console.log('Write data: ', data)
         res.json(data)
     })
@@ -46,8 +46,8 @@ app.post('/api/connect', async (req, res) => {
     })
 })
 
-app.get('/api/isConnected', (req, res) => {
+app.get('/api/isConnected', async (req, res) => {
     console.log('request for connection status')
 
-    res.json(plcManager.isConnected)
+    res.json(await plcManager.getPlcStatus())
 })

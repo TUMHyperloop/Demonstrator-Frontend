@@ -8,7 +8,7 @@
     // Get the selected tab to highlight
     export let selectedSubsystem
 
-    let subsystemList = ['configuration']
+    let subsystemList = ['tube', 'vacuum', 'propulsion', 'levitation', 'interior']
 
     // Create event dispatcher
     const dispatch = createEventDispatcher()
@@ -21,6 +21,15 @@
 
     let isConnected = false
     async function connectToPlc() {
+        // check if connection is already established
+        let resp = await fetch('http://localhost:3000/api/isConnected')
+        let data = await resp.json()
+        isConnected = data.success
+
+        if (isConnected) {
+            return
+        }
+
         await fetch('http://localhost:3000/api/connect', {
             method: 'POST',
             headers: {
@@ -30,19 +39,7 @@
     }
 
     onMount(async () => {
-        let resp = await fetch('http://localhost:3000/api/isConnected')
-        let data = await resp.json()
-        isConnected = data.isConnected
-        console.log(isConnected)
 
-        /* let connInterval = setInterval(async () => {
-            let resp = await fetch('http://localhost:3000/api/isConnected')
-            let data = await resp.json()
-            isConnected = data.isConnected
-        }, 1000)
-
-        // TODO: remove interval after 1 fetch
-        clearInterval(connInterval) */
     })
 </script>
 
@@ -65,7 +62,6 @@
 
         <div
             class="tab"
-            class:selected={isConnected}
             on:click={() => connectToPlc()}
         >
             <img src={isConnected ? completedSvg : errorSvg} alt="" />

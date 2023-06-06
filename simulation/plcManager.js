@@ -6,7 +6,7 @@ const path = require('path')
 // Single object with preconfigured in client twincat connection data
 let plcManager = {
     client: new ads.Client({
-        targetAmsNetId: '172.18.214.28.1.1', //192.168.137.95.1.1
+        targetAmsNetId:'192.168.248.2.1.1', // '172.18.214.28.1.1', //
         targetAdsPort: 851,
     }),
 
@@ -98,6 +98,26 @@ let plcManager = {
             .then((response) => {
                 readObj.success = true
                 readObj.data = response
+
+                cleanData = {}
+
+                for(let item of response) {
+                    varName = item.symbol.name
+                    varValue = null 
+
+                    // check if value is enum 
+                    if (typeof item.value == 'object') {
+                        varValue = item.value.name
+                    } else {
+                        varValue = item.value
+                    }
+
+                    cleanData[varName] = varValue
+                } 
+
+                readObj.data = cleanData
+
+                console.log(cleanData)
             })
             .catch((err) => {
                 console.log(err)

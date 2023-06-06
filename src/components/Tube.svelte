@@ -31,7 +31,7 @@
         // Start reading sensors continously, set up interval
         interval = setInterval(async () => {
             let vacuumResp = await readSensorValues(Object.keys($vacuumSensors))
-            if ((vacuumResp.status = 'ok')) {
+            if ((vacuumResp.success = true)) {
                 $vacuumSensors = vacuumResp.data
             }
 
@@ -67,7 +67,6 @@
             <Button
                 buttonText={$buttonsTcMappings[tcVariable]}
                 tcVaraible={tcVariable}
-                buttonValue={$buttonsTc[tcVariable]}
             />
         {/each}
     </div>
@@ -77,7 +76,6 @@
             <Button
                 buttonText={$buttonsTcMappings[tcVariable]}
                 tcVaraible={tcVariable}
-                buttonValue={$buttonsTc[tcVariable]}
             />
         {/each}
     </div>
@@ -91,7 +89,6 @@
                 width="{controlsWidth}px"
                 buttonText={$buttonsTcMappings[tcVariable]}
                 tcVaraible={tcVariable}
-                buttonValue={$buttonsTc[tcVariable]}
             />
         {/each}
     </div>
@@ -103,7 +100,6 @@
                 width="{controlsWidth}px"
                 buttonText={$buttonsTcMappings[tcVariable]}
                 tcVaraible={tcVariable}
-                buttonValue={$buttonsTc[tcVariable]}
             />
         {/each}
     </div>
