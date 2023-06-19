@@ -1,19 +1,32 @@
 <script>
-    export let subsystemName = 'Tube Control'
+    import svgCompleted from '../assets/timeline-completed.svg'
+    import svgError from '../assets/timeline-error.svg'
+    import svgProgress from '../assets/timeline-progress.svg'
+    import svgQueued from '../assets/timeline-queued.svg'
+    import svgWarning from '../assets/timeline-warning.svg'
+    import errorSvg from '../assets/timeline-error.svg'
     import completedSvg from '../assets/timeline-completed.svg'
+    import warningSvg from '../assets/timeline-warning.svg'
+    import queuedSvg from '../assets/timeline-queued.svg'
+    export let subsystemName = 'Tube Control'
+    export let subsystemValues = ["DEACTIVATED", false]
+
+    $: svg1 = subsystemValues[0] == "ACTIVATED" ? completedSvg : errorSvg
+    $: svg2 = subsystemValues[1] ? completedSvg : errorSvg
+
 </script>
 
 <div class="subsystem">
     <h2>{subsystemName}</h2>
     <div>
         <div class="action">
-            <img src={completedSvg} alt="" /> <span>Activation Status</span>
+            <img src={svg1} alt="" /> <span>Activation Status</span>
         </div>
         <div class="subsystem-distancer" />
     </div>
     <div>
         <div class="action">
-            <img src={completedSvg} alt="" /> <span>Ready for Op.</span>
+            <img src={svg2} alt="" /> <span>Ready for Op.</span>
         </div>
         <div class="subsystem-distancer" />
     </div>

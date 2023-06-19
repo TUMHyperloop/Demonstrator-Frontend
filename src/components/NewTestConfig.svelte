@@ -1,15 +1,45 @@
 <script>
-    let subsystemList = ['vacuum', 'propulsion', 'levitation', 'tube']
+    import { readSensorValues, writeValues } from "../stores/apiReadingCom"
+    import { onDestroy, onMount } from "svelte"
+    import {subsystemsTc, subsystemsTcMappings} from "../stores/tcObjects"
 
-    let subsystemToTest = {}
 
-    function handleSubsystemClick(subsystem) {}
+    let interval = null
+
+    onMount(async () => {
+        // Start reading sensors continously, set up interval
+        interval = setInterval(async () => {
+            let resp = await readSensorValues(Object.keys($subsystemsTc))
+            if ((resp.success = true)) {
+                $subsystemsTc = resp.data
+            }
+
+            // TODO: Remove this, just for testing
+            // clearInterval(interval)
+        }, 1000)
+    })
+
+    onDestroy(() => {
+        clearInterval(interval)
+    })
+
+    function handleSubsystemClick(subsystem) {
+        console.log("Clicked subsystem: " + subsystem)
+
+        let oldObj = $subsystemsTc
+
+        // Change value of subsystem to true
+        oldObj[subsystem] = !oldObj[subsystem]
+
+        // write to backend 
+        writeValues(oldObj)
+    }
 </script>
 
-{#each subsystemList as subsystem}
-    <div class="subsys-holder" on:click={() => handleSubsystemClick(subsystem)}>
-        <div class="selector" class:selected={subsystemToTest[subsystem]} />
-        <div class="subsystem">{subsystem.toUpperCase()}</div>
+{#each Object.keys($subsystemsTc) as subsystemTcVar}
+    <div class="subsys-holder" on:click={() => handleSubsystemClick(subsystemTcVar)}>
+        <div class="selector" class:selected={$subsystemsTc[subsystemTcVar]} />
+        <div class="subsystem">{($subsystemsTcMappings[subsystemTcVar]).toUpperCase()}</div>
     </div>
 {/each}
 

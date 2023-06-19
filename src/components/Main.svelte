@@ -5,8 +5,26 @@
     import Levitation from './Levitation.svelte';
     import Interior from './Interior.svelte';
 
+    import Button from './Button.svelte'
+
+    import {buttonsTc, buttonsTcMappings} from '../stores/tcObjects.js'
+    import {onDestroy, onMount} from 'svelte'
+
+
     // Get which window and subsystem to display
     export let selectedSubsystem = 'tube'
+
+    let controlsWidth = 'fit-content'
+    let controlsElement = null
+
+    onMount(async () => {
+        if (
+            controlsWidth == 'fit-content' ||
+            controlsElement.offsetWidth > controlsWidth
+        ) {
+            controlsWidth = controlsElement.offsetWidth
+        }
+    })
 </script>
 {#if selectedSubsystem === 'tube'}
 <Tube />
@@ -25,5 +43,134 @@
 
 {/if}
 
+<!-- Controls Block -->
+
+<div class="first-row">
+    <div class="configs">
+        {#each Object.keys($buttonsTc).slice(0, 2) as tcVariable}
+            <Button
+                buttonText={$buttonsTcMappings[tcVariable]}
+                tcVaraible={tcVariable}
+            />
+        {/each}
+    </div>
+
+    <div class="state-change">
+        {#each Object.keys($buttonsTc).slice(2, 6) as tcVariable}
+            <Button
+                buttonText={$buttonsTcMappings[tcVariable]}
+                tcVaraible={tcVariable}
+            />
+        {/each}
+    </div>
+</div>
+
+<div class="controls-wrapper">
+    <div class="controls">
+        {#each Object.keys($buttonsTc).slice(6, 8) as tcVariable}
+            <Button
+                bind:this={controlsElement}
+                width="{controlsWidth}px"
+                buttonText={$buttonsTcMappings[tcVariable]}
+                tcVaraible={tcVariable}
+            />
+        {/each}
+    </div>
+
+    <div class="controls">
+        {#each Object.keys($buttonsTc).slice(8, 10) as tcVariable}
+            <Button
+                bind:this={controlsElement}
+                width="{controlsWidth}px"
+                buttonText={$buttonsTcMappings[tcVariable]}
+                tcVaraible={tcVariable}
+            />
+        {/each}
+    </div>
+
+    <input
+        type="number"
+        placeholder="Target pressure"
+        value={$buttonsTc['tcTargetPressure']}
+    /> <span>mbar</span>
+
+    <div class="controls">
+        {#each Object.keys($buttonsTc).slice(10, 12) as tcVariable}
+            <Button
+                bind:this={controlsElement}
+                width="{controlsWidth}px"
+                buttonText={$buttonsTcMappings[tcVariable]}
+                tcVaraible={tcVariable}
+            />
+        {/each}
+    </div>
+
+    <div class="controls">
+        {#each Object.keys($buttonsTc).slice(12, 13) as tcVariable}
+            <Button
+                bind:this={controlsElement}
+                width="{controlsWidth}px"
+                buttonText={$buttonsTcMappings[tcVariable]}
+                tcVaraible={tcVariable}
+            />
+        {/each}
+    </div>
+</div>
+
+
 <style>
+        .configs {
+        display: flex;
+    }
+    .state-change {
+        display: flex;
+        justify-content: space-between;
+        margin-right: 15px;
+    }
+    .first-row {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .controls {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+    }
+    .controls-wrapper {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    input {
+        font-family: 'Poppins';
+        font-weight: 400;
+        color: white;
+        background-color: #212121;
+        outline: 3px solid white;
+        border-radius: 2px;
+        font-size: 23px;
+        letter-spacing: 0.025rem;
+        margin: 20px 0 0 15px;
+        padding: 0 10px;
+        width: 150px; 
+
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        height: fit-content;
+    }
+    span{
+        color: white; 
+        font-size: 18px;
+        margin-left: 7px;
+        font-family: 'Poppins';
+        position: relative; 
+        top: 6px;
+    }
+    input:focus,
+    input:active {
+        outline: 3px solid white !important;
+    }
 </style>

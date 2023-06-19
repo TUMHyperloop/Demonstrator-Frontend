@@ -1,11 +1,29 @@
 <script>
-    import svgCompleted from '../assets/timeline-completed.svg'
-    import svgError from '../assets/timeline-error.svg'
-    import svgProgress from '../assets/timeline-progress.svg'
-    import svgQueued from '../assets/timeline-queued.svg'
-    import svgWarning from '../assets/timeline-warning.svg'
+
     import SideMenuTitle from './SideMenuTitle.svelte'
     import RightSubsystem from './RightSubsystem.svelte'
+
+    import { onDestroy, onMount } from 'svelte'
+    import {activationStatusTc} from '../stores/tcObjects'
+    import { readSensorValues } from '../stores/apiReadingCom'
+
+    let interval = null
+
+    $: activationValues = Object.values($activationStatusTc);
+
+onMount(async () => {
+    // Start reading sensors continously, set up interval
+    interval = setInterval(async () => {
+        let vacuumResp = await readSensorValues(Object.keys($activationStatusTc))
+        if ((vacuumResp.success = true)) {
+            $activationStatusTc = vacuumResp.data
+        }
+
+        // TODO: Remove this, just for testing
+        clearInterval(interval)
+    }, 1000)
+})
+
 </script>
 
 <div class="wrapper">
@@ -14,10 +32,11 @@
             <div class="main-distancer" />
             <h1>STATUS:</h1>
         </div>
-        <RightSubsystem subsystemName="Tube Control" />
-        <RightSubsystem subsystemName="Vacuum Control" />
-        <RightSubsystem subsystemName="Propulsion Control" />
-        <RightSubsystem subsystemName="Levitation Control" />
+        <RightSubsystem subsystemName="Levitation Control" subsystemValues={[activationValues[0], activationValues[1]]}/>
+        <RightSubsystem subsystemName="Interior" subsystemValues={[activationValues[2], activationValues[3]]}  />
+        <RightSubsystem subsystemName="Propulsion Control" subsystemValues={[activationValues[4], activationValues[5]]}/>
+        <RightSubsystem subsystemName="Tube Control" subsystemValues={[activationValues[6], activationValues[7]]} />
+        <RightSubsystem subsystemName="Vacuum Control"subsystemValues={[activationValues[8], activationValues[9]]} />
     </div>
 
     <SideMenuTitle title="wizard" />

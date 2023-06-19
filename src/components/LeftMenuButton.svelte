@@ -19,7 +19,7 @@
         justify-content: space-between;
         color: white;
         font-family: 'Poppins';
-        font-size: 15px;
+        font-size: 13px;
         align-items: center;
         cursor: pointer;
     }

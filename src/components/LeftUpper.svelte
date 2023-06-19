@@ -1,21 +1,37 @@
 <script>
     import LeftMenuButton from './LeftMenuButton.svelte'
     import SideMenuTitle from './SideMenuTitle.svelte'
+
+    import {sensorsTcMain, sensorsTcMainMappings} from '../stores/tcObjects.js'
+    import { onDestroy, onMount } from 'svelte'
+    import { readSensorValues } from '../stores/apiReadingCom'
+
+
+    let interval = null 
+    onMount(async () => {
+        // Start reading sensors continously, set up interval
+        interval = setInterval(async () => {
+            let lightsAndWarnings = await readSensorValues(Object.keys($sensorsTcMain))
+            if ((lightsAndWarnings.success = true)) {
+                $sensorsTcMain = lightsAndWarnings.data
+                console.log(lightsAndWarnings)
+            }
+
+            // TODO: Remove this, just for testing
+            clearInterval(interval)
+        }, 1000)
+    })
+
+    onDestroy(() => {
+        /* clearInterval(interval) */
+    })
 </script>
 
 <div class="wrapper">
     <div class="content">
-        <LeftMenuButton name="Humidity Sensor" value="0 gm/m3" />
-        <LeftMenuButton name="Distance Sensor #1" value="0 mm" />
-        <LeftMenuButton name="Distance Sensor #2" value="0 mm" />
-        <LeftMenuButton name="Temperature #1" value="17°C" />
-        <LeftMenuButton name="Temperature #2" value="17°C" />
-        <LeftMenuButton name="Temperature #3" value="17°C" />
-        <LeftMenuButton name="Temperature #4" value="18°C" />
-        <LeftMenuButton name="Temperature #5" value="18°C" />
-        <LeftMenuButton name="Temperature #6" value="18°C" />
-        <LeftMenuButton name="Temperature #7" value="18°C" />
-        <LeftMenuButton name="Temperature #8" value="18°C" />
+        {#each Object.keys($sensorsTcMain) as tcVar}
+             <LeftMenuButton name={$sensorsTcMainMappings[tcVar]} value={$sensorsTcMain[tcVar]} />
+        {/each}
     </div>
 
     <SideMenuTitle title="sensors" />
