@@ -17,12 +17,11 @@
         interval = setInterval(async () => {
             let interiorResp = await readSensorValues(Object.keys($interiorTc))
             if ((interiorResp.success = true)) {
-                console.log(interiorResp)
                 $interiorTc = interiorResp.data
             }
 
             // TODO: Remove this, just for testing
-            clearInterval(interval)
+            // clearInterval(interval)
         }, 1000)
     })
 

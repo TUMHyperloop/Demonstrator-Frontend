@@ -17,7 +17,7 @@
         {:else}
             <h1>SELECT SYSTEMS</h1>
             <NewTestConfig />
-            <button on:click={handleStartTest}>SET</button>
+            <button on:click={handleStartTest}></button>
         {/if}
     </div>
 

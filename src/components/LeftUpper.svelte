@@ -14,16 +14,15 @@
             let lightsAndWarnings = await readSensorValues(Object.keys($sensorsTcMain))
             if ((lightsAndWarnings.success = true)) {
                 $sensorsTcMain = lightsAndWarnings.data
-                console.log(lightsAndWarnings)
             }
 
             // TODO: Remove this, just for testing
-            clearInterval(interval)
+            // clearInterval(interval)
         }, 1000)
     })
 
     onDestroy(() => {
-        /* clearInterval(interval) */
+        clearInterval(interval)
     })
 </script>
 
