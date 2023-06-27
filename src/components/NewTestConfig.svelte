@@ -8,9 +8,12 @@
 
     onMount(async () => {
         // Start reading sensors continously, set up interval
+        console.log("Read request", Object.keys($subsystemsTc))
+
         interval = setInterval(async () => {
             let resp = await readSensorValues(Object.keys($subsystemsTc))
             if ((resp.success = true)) {
+                console.log(resp)
                 $subsystemsTc = resp.data
             }
 
@@ -26,13 +29,11 @@
     function handleSubsystemClick(subsystem) {
         console.log("Clicked subsystem: " + subsystem)
 
-        let oldObj = $subsystemsTc
-
         // Change value of subsystem to true
-        oldObj[subsystem] = !oldObj[subsystem]
+        let writeObj = {...$subsystemsTc, [subsystem] : !$subsystemsTc[subsystem]} 
 
         // write to backend 
-        writeValues(oldObj)
+        writeValues(writeObj)
     }
 </script>
 

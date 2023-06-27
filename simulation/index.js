@@ -19,6 +19,7 @@ app.listen(port, () => {
 
 app.post('/api/read', async (req, res) => {
     const tcArray = req.body.tcArray
+    
     console.log('Read request for: ', tcArray)
 
     await plcManager.readValues(tcArray).then((data) => {
