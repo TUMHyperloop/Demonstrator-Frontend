@@ -12,12 +12,13 @@
         // Start reading sensors continously, set up interval
         interval = setInterval(async () => {
             let lightsAndWarnings = await readSensorValues(Object.keys($sensorsTcMain))
-            if ((lightsAndWarnings.success = true)) {
+            if (lightsAndWarnings.success == true) {
                 $sensorsTcMain = lightsAndWarnings.data
+            } else { 
+                throw new Error(JSON.stringify(lightsAndWarnings))
             }
-
             // TODO: Remove this, just for testing
-            // clearInterval(interval)
+            clearInterval(interval)
         }, 1000)
     })
 

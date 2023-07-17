@@ -23,7 +23,7 @@
             }
 
             // TODO: Remove this, just for testing
-            // clearInterval(interval)
+            clearInterval(interval)
         }, 1000)
     })
 
@@ -43,10 +43,7 @@
         {/each}
     </div>
 </div>
-<SubsystemSplitter subsystemName="Propulsion" />
-
-<SubsystemSplitter subsystemName="Levitation & Guidance" />
-<SubsystemSplitter subsystemName="Tube Control" />
+<SubsystemSplitter subsystemName="Main Controls" />
 
 
 

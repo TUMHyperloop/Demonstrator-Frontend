@@ -34,7 +34,7 @@
 
 
         // TODO: remove this
-        // clearInterval(interval)
+        clearInterval(interval)
     })
 
     // Remove the interval to prevent memory leaks

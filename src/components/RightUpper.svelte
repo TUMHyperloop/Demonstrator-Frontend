@@ -20,7 +20,7 @@ onMount(async () => {
         }
 
         // TODO: Remove this, just for testing
-        // clearInterval(interval)
+        clearInterval(interval)
     }, 1000)
 })
 

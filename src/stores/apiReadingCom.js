@@ -2,8 +2,6 @@ import { writable } from 'svelte/store'
 import { vacuumSensors } from './tcObjects'
 
 export async function readSensorValues(tcArray) {
-    console.log(tcArray)
-
     const tcRes = await fetch('http://localhost:3000/api/read', {
         method: 'POST',
         headers: {

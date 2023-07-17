@@ -5,7 +5,9 @@
 
     function handleCancelTest() {}
 
-    function handleStartTest() {}
+    function handleStartTest() {
+
+    }
 
     let testActive = false
 </script>
@@ -17,7 +19,7 @@
         {:else}
             <h1>SELECT SYSTEMS</h1>
             <NewTestConfig />
-            <button on:click={handleStartTest}></button>
+            <button on:click={handleStartTest}>BLUE BUTTON</button>
         {/if}
     </div>
 

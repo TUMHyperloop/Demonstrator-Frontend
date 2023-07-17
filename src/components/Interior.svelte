@@ -4,11 +4,9 @@
     import SubsystemSplitter from './SubsystemSplitter.svelte'
     import SubsystemSteps from './SubsystemSteps.svelte'
     import SensorField from './SensorField.svelte'
-    import {
-        interiorMappings, 
-        interiorTc
-    } from '../stores/tcObjects.js'
+    import { interiorMappings, interiorTc } from '../stores/tcObjects.js'
     import { readSensorValues, writeValues } from '../stores/apiReadingCom.js'
+    import InteriorPressure from './InteriorPressure.svelte'
 
     let interval = null
 
@@ -21,7 +19,7 @@
             }
 
             // TODO: Remove this, just for testing
-            // clearInterval(interval)
+            clearInterval(interval)
         }, 1000)
     })
 
@@ -30,7 +28,7 @@
     })
 </script>
 
-<SubsystemSplitter subsystemName="Vacuum Control" />
+<SubsystemSplitter subsystemName="Interior Control" />
 <div class="sensor-holder">
     <div class="sensor-box">
         {#each Object.keys($interiorTc) as tcVariable}
@@ -41,15 +39,11 @@
         {/each}
     </div>
 </div>
-<SubsystemSplitter subsystemName="Propulsion" />
 
-<SubsystemSplitter subsystemName="Levitation & Guidance" />
-<SubsystemSplitter subsystemName="Tube Control" />
-
-
+<InteriorPressure />
+<SubsystemSplitter subsystemName="Main Controls" />
 
 <style>
-
     .sensor-holder {
         display: flex;
         flex-direction: row;

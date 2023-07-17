@@ -18,7 +18,37 @@ export const activationStatusTc = writable({
 })
 
 // Propulsion screen
-export const propulsionTc = writable({})
+export const propulsionTc = writable({
+    'GUI_OUTPUT.TubeControlData.HumiditySensor_Condition': 'N/A',
+    'GUI_OUTPUT.TubeControlData.TubeOperationMonitoring_Condition': 'N/A',
+    'GUI_OUTPUT.TubeControlData.TubeLightControl_Condition': 'N/A',
+    'GUI_OUTPUT.TubeControlData.Light_Condition[0]': 'N/A',
+    'GUI_OUTPUT.TubeControlData.PneumaticPressureSensors_Condition[0]': 'N/A',
+    'GUI_OUTPUT.TubeControlData.TubeDoorSystem_Condition': 'N/A',
+    'GUI_OUTPUT.PropulsionData.TemperatureArmature_Temperature[0]': 'N/A',
+    'GUI_OUTPUT.PropulsionData.TemperatureArmature_Temperature[1]': 'N/A',
+    'GUI_OUTPUT.PropulsionData.TemperatureArmature_Temperature[2]': 'N/A',
+})
+
+export const propulsionMappings = writable({
+    'GUI_OUTPUT.TubeControlData.HumiditySensor_Condition':
+        'Humidity Sensor Cond.',
+    'GUI_OUTPUT.TubeControlData.TubeOperationMonitoring_Condition':
+        'Tube Operation Monitoring Cond.',
+    'GUI_OUTPUT.TubeControlData.TubeLightControl_Condition':
+        'Tube Light Control Cond.',
+    'GUI_OUTPUT.TubeControlData.Light_Condition[0]': 'Light Cond.',
+    'GUI_OUTPUT.TubeControlData.PneumaticPressureSensors_Condition[0]':
+        'Pneumatic Pressure Sensors Cond.',
+    'GUI_OUTPUT.TubeControlData.TubeDoorSystem_Condition':
+        'Tube Door System Cond.',
+    'GUI_OUTPUT.PropulsionData.TemperatureArmature_Temperature[0]':
+        'Temperature Armature Temp.',
+    'GUI_OUTPUT.PropulsionData.TemperatureArmature_Temperature[1]':
+        'Temperature Armature Temp.',
+    'GUI_OUTPUT.PropulsionData.TemperatureArmature_Temperature[2]':
+        'Temperature Armature Temp.',
+})
 
 // interior screen
 export const interiorTc = writable({
@@ -172,7 +202,11 @@ export const buttonsTc = writable({
     'GUI_INPUT.bOpenPodDoor': false,
     'GUI_INPUT.bClosePodDoor': false,
     'GUI_INPUT.bTestWithHumans': false,
-    tcTargetPressure: '8',
+    'GUI_INPUT.bDisengagePodDoor': false,
+})
+
+export const pressureButtonTc = writable({
+    'GUI_INPUT.lrTargetPressure': '0',
 })
 
 export const buttonsTcMappings = writable({
@@ -189,6 +223,7 @@ export const buttonsTcMappings = writable({
     'GUI_INPUT.bOpenPodDoor': 'Open Door',
     'GUI_INPUT.bClosePodDoor': 'Close Door',
     'GUI_INPUT.bTestWithHumans': 'Test with Humans',
+    'GUI_INPUT.bDisengagePodDoor': 'Disengage Door',
 })
 
 export const sensorsTcMain = writable({

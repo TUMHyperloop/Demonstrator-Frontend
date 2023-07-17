@@ -23,7 +23,7 @@
             }
 
             // TODO: Remove this, just for testing
-            // clearInterval(interval)
+            clearInterval(interval)
         }, 1000)
     })
 
@@ -32,7 +32,7 @@
     })
 </script>
 
-<SubsystemSplitter subsystemName="Vacuum Control" />
+<SubsystemSplitter subsystemName="Tube Control" />
 <div class="sensor-holder">
     <div class="sensor-box">
         {#each Object.keys($tubeTc) as tcVariable}
@@ -43,10 +43,7 @@
         {/each}
     </div>
 </div>
-<SubsystemSplitter subsystemName="Propulsion" />
-
-<SubsystemSplitter subsystemName="Levitation & Guidance" />
-<SubsystemSplitter subsystemName="Tube Control" />
+<SubsystemSplitter subsystemName="Main Controls" />
 
 
 

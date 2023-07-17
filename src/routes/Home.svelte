@@ -40,7 +40,7 @@
 <style>
     .grid-container {
         background-color: #212121;
-        width: 1920px;
+        width: 1910px;
         height: 1080px;
 
         display: grid;
@@ -57,6 +57,10 @@
     }
     .main {
         background-color: #212121;
+        overflow-y: scroll;
+    }
+    .main::-webkit-scrollbar {
+        display: none;
     }
     .right-nav {
         background-color: #212121;

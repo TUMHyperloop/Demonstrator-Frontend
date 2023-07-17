@@ -1,15 +1,16 @@
 <script>
     import Tube from './Tube.svelte'
-    import Vacuum from './Vacuum.svelte';
-    import Propulsion from './Propulsion.svelte';
-    import Levitation from './Levitation.svelte';
-    import Interior from './Interior.svelte';
+    import Vacuum from './Vacuum.svelte'
+    import Propulsion from './Propulsion.svelte'
+    import Levitation from './Levitation.svelte'
+    import Interior from './Interior.svelte'
 
     import Button from './Button.svelte'
 
-    import {buttonsTc, buttonsTcMappings} from '../stores/tcObjects.js'
-    import {onDestroy, onMount} from 'svelte'
-
+    import { buttonsTc, buttonsTcMappings } from '../stores/tcObjects.js'
+    import { onDestroy, onMount } from 'svelte'
+    import { writeValues } from '../stores/apiReadingCom'
+    import InputControl from './InputControl.svelte'
 
     // Get which window and subsystem to display
     export let selectedSubsystem = 'tube'
@@ -26,21 +27,17 @@
         }
     })
 </script>
+
 {#if selectedSubsystem === 'tube'}
-<Tube />
-
-{:else if selectedSubsystem  == 'vacuum'}
-<Vacuum />
-
-{:else if selectedSubsystem  == 'propulsion'}
-<Propulsion />
-
-{:else if selectedSubsystem  == 'levitation'}
-<Levitation />
-
-{:else if selectedSubsystem  == 'interior'}
-<Interior />
-
+    <Tube />
+{:else if selectedSubsystem == 'vacuum'}
+    <Vacuum />
+{:else if selectedSubsystem == 'propulsion'}
+    <Propulsion />
+{:else if selectedSubsystem == 'levitation'}
+    <Levitation />
+{:else if selectedSubsystem == 'interior'}
+    <Interior />
 {/if}
 
 <!-- Controls Block -->
@@ -88,11 +85,7 @@
         {/each}
     </div>
 
-    <input
-        type="number"
-        placeholder="Target pressure"
-        value={$buttonsTc['tcTargetPressure']}
-    /> <span>mbar</span>
+    <InputControl />
 
     <div class="controls">
         {#each Object.keys($buttonsTc).slice(10, 12) as tcVariable}
@@ -106,7 +99,7 @@
     </div>
 
     <div class="controls">
-        {#each Object.keys($buttonsTc).slice(12, 13) as tcVariable}
+        {#each Object.keys($buttonsTc).slice(12, 14) as tcVariable}
             <Button
                 bind:this={controlsElement}
                 width="{controlsWidth}px"
@@ -117,9 +110,8 @@
     </div>
 </div>
 
-
 <style>
-        .configs {
+    .configs {
         display: flex;
     }
     .state-change {
@@ -141,36 +133,5 @@
     .controls-wrapper {
         display: flex;
         align-items: flex-end;
-    }
-
-    input {
-        font-family: 'Poppins';
-        font-weight: 400;
-        color: white;
-        background-color: #212121;
-        outline: 3px solid white;
-        border-radius: 2px;
-        font-size: 23px;
-        letter-spacing: 0.025rem;
-        margin: 20px 0 0 15px;
-        padding: 0 10px;
-        width: 150px; 
-
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        height: fit-content;
-    }
-    span{
-        color: white; 
-        font-size: 18px;
-        margin-left: 7px;
-        font-family: 'Poppins';
-        position: relative; 
-        top: 6px;
-    }
-    input:focus,
-    input:active {
-        outline: 3px solid white !important;
     }
 </style>
